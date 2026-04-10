@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Reading Nook - Sua Biblioteca Pessoal</title>
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonte Serifada do Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Estilos Customizados -->
+    <link rel="stylesheet" href="./css/styles.css">
+
+    <!-- Font Awesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="bg-stone-50 text-stone-900" style="font-family: 'Inter', sans-serif;">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md py-8 border-b-4 border-amber-800">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-center gap-3">
+                <i class="fas fa-book text-amber-800 text-4xl"></i>
+                <h1 class="text-4xl font-bold text-amber-800" style="font-family: 'Merriweather', serif;">The Reading
+                    Nook</h1>
+            </div>
+            <p class="text-center text-stone-600 mt-2 text-sm">Sua biblioteca pessoal, seu refúgio literário</p>
+        </div>
+    </header>
+
+    <!-- Container Principal -->
+    <main class="container mx-auto px-4 py-12">
+
+        <!-- Seção do Formulário -->
+        <section class="mb-12">
+            <div class="bg-white rounded-lg shadow-lg p-8 border-l-4 border-amber-800">
+                <h2 class="text-2xl font-bold text-stone-900 mb-6" style="font-family: 'Merriweather', serif;">
+                    <i class="fas fa-plus-circle text-teal-700 mr-2"></i>Adicionar Novo Livro
+                </h2>
+
+                <form id="bookForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="title" class="block text-sm font-semibold text-stone-700 mb-2">Título *</label>
+                        <input type="text" id="title" name="title" placeholder="Título do livro"
+                            class="w-full px-4 py-2 border-2 border-stone-300 rounded-lg focus:outline-none focus:border-teal-700 transition"
+                            required>
+                    </div>
+
+                    <div>
+                        <label for="author" class="block text-sm font-semibold text-stone-700 mb-2">Autor *</label>
+                        <input type="text" id="author" name="author" placeholder="Nome do autor"
+                            class="w-full px-4 py-2 border-2 border-stone-300 rounded-lg focus:outline-none focus:border-teal-700 transition"
+                            required>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-stone-700 mb-2">Gêneros *</label>
+                        <div class="flex gap-2 mb-2">
+                            <input type="text" id="genreInput" placeholder="Adicione um gênero"
+                                class="flex-1 px-4 py-2 border-2 border-stone-300 rounded-lg focus:outline-none focus:border-teal-700 transition">
+                            <button type="button" id="addGenreBtn" onclick="addGenreTag()"
+                                class="px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white rounded-lg transition font-semibold">
+                                <i class="fas fa-plus"></i> Adicionar
+                            </button>
+                        </div>
+                        <div id="genreTagsContainer" class="flex flex-wrap gap-2">
+                            <!-- Tags de gênero aparecerão aqui -->
+                        </div>
+                        <input type="hidden" id="genres" name="genres">
+                    </div>
+
+                    <div>
+                        <label for="pages" class="block text-sm font-semibold text-stone-700 mb-2">Número de Páginas *</label>
+                        <input type="number" id="pages" name="pages" placeholder="Ex: 350" min="1"
+                            class="w-full px-4 py-2 border-2 border-stone-300 rounded-lg focus:outline-none focus:border-teal-700 transition"
+                            required>
+                    </div>
+
+                    <div>
+                        <label for="status" class="block text-sm font-semibold text-stone-700 mb-2">Status *</label>
+                        <select id="status" name="status" onchange="updateRatingRequirement()"
+                            class="w-full px-4 py-2 border-2 border-stone-300 rounded-lg focus:outline-none focus:border-teal-700 transition"
+                            required>
+                            <option value="">Selecione um status</option>
+                            <option value="Quero Ler">Quero Ler 📖</option>
+                            <option value="Lendo">Lendo 📕</option>
+                            <option value="Lido">Lido ✅</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="rating" class="block text-sm font-semibold text-stone-700 mb-2">
+                            Nota (1 a 5 ⭐) <span id="ratingRequired"></span>
+                        </label>
+                        <input type="number" id="rating" name="rating" min="1" max="5" placeholder="Apenas para lidos"
+                            class="w-full px-4 py-2 border-2 border-stone-300 rounded-lg focus:outline-none focus:border-teal-700 transition">
+                        <small class="text-stone-500">ℹ️ Obrigatória apenas se status for "Lido"</small>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <button type="submit"
+                            class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-3 px-6 rounded-lg transition transform hover:scale-105 flex items-center justify-center gap-2">
+                            <i class="fas fa-bookmark"></i>
+                            Adicionar Livro
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Barra de Busca e Filtros -->
+        <section class="mb-12">
+            <div class="bg-white rounded-lg shadow-md p-6 border-t-4 border-teal-700">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="md:col-span-2">
+                        <label for="searchInput" class="block text-sm font-semibold text-stone-700 mb-2">
+                            <i class="fas fa-search mr-1"></i>Buscar por Título ou Autor
+                        </label>
+                        <input type="text" id="searchInput" placeholder="Digite para buscar..."
+                            class="w-full px-4 py-2 border-2 border-stone-300 rounded-lg focus:outline-none focus:border-teal-700 transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-stone-700 mb-2">Estatísticas</label>
+                        <div class="bg-stone-50 rounded-lg p-3 text-center">
+                            <p class="text-lg font-bold text-amber-800" id="totalBooks">0</p>
+                            <p class="text-xs text-stone-600">livros cadastrados</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtros de Status -->
+                <div>
+                    <label class="block text-sm font-semibold text-stone-700 mb-3">
+                        <i class="fas fa-filter mr-1"></i>Filtrar por Status
+                    </label>
+                    <div class="flex flex-wrap gap-2">
+                        <button id="filterAll"
+                            class="filter-btn px-4 py-2 rounded-full font-semibold transition text-white bg-stone-600 hover:bg-stone-700"
+                            data-filter="all">
+                            Todos
+                        </button>
+                        <button id="filterWantRead"
+                            class="filter-btn px-4 py-2 rounded-full font-semibold transition bg-blue-100 text-blue-800 hover:bg-blue-200"
+                            data-filter="Quero Ler">
+                            <i class="fas fa-bookmark mr-1"></i>Quero Ler
+                        </button>
+                        <button id="filterReading"
+                            class="filter-btn px-4 py-2 rounded-full font-semibold transition bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
+                            data-filter="Lendo">
+                            <i class="fas fa-book-open mr-1"></i>Lendo
+                        </button>
+                        <button id="filterRead"
+                            class="filter-btn px-4 py-2 rounded-full font-semibold transition bg-green-100 text-green-800 hover:bg-green-200"
+                            data-filter="Lido">
+                            <i class="fas fa-check-circle mr-1"></i>Lido
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grid de Livros -->
+        <section>
+            <div id="booksContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Cards serão inseridos aqui pelo JavaScript -->
+            </div>
+
+            <!-- Estado Vazio -->
+            <div id="emptyState" class="text-center py-16">
+                <i class="fas fa-inbox text-6xl text-stone-300 mb-4 inline-block"></i>
+                <h3 class="text-2xl font-bold text-stone-600 mb-2" style="font-family: 'Merriweather', serif;">Sua
+                    biblioteca está vazia</h3>
+                <p class="text-stone-500 mb-6">Comece adicionando seu primeiro livro para preencher este espaço especial
+                </p>
+                <button onclick="document.getElementById('title').focus()"
+                    class="bg-amber-800 hover:bg-amber-900 text-white font-bold py-2 px-6 rounded-lg transition">
+                    <i class="fas fa-plus-circle mr-2"></i>Adicionar Livro
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal de Edição de Livro -->
+    <div id="editModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-screen overflow-y-auto">
+            <div class="p-8 border-b-4 border-amber-800 flex justify-between items-center sticky top-0 bg-white">
+                <h2 class="text-2xl font-bold text-stone-900" style="font-family: 'Merriweather', serif;">
+                    <i class="fas fa-edit text-teal-700 mr-2"></i>Editar Livro
+                </h2>
+                <button onclick="closeEditModal()" class="text-gray-500 hover:text-gray-700 text-2xl">
+                    ✕
+                </button>
+            </div>
+
+            <form id="editForm" class="p-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="hidden" id="editBookId">
+
+                <div>
+                    <label for="editTitle" class="block text-sm font-semibold text-stone-700 mb-2">Título *</label>
+                    <input type="text" id="editTitle" placeholder="Título do livro"
+                        class="w-full px-4 py-2 border-2 border-stone-300 rounded-lg focus:outline-none focus:border-teal-700 transition"
+                        required>
+                </div>
+
+                <div>
+                    <label for="editAuthor" class="block text-sm font-semibold text-stone-700 mb-2">Autor *</label>
+                    <input type="text" id="editAuthor" placeholder="Nome do autor"
+                        class="w-full px-4 py-2 border-2 border-stone-300 rounded-lg focus:outline-none focus:border-teal-700 transition"
+                        required>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-semibold text-stone-700 mb-2">Gêneros *</label>
+                    <div class="flex gap-2 mb-2">
+                        <input type="text" id="editGenreInput" placeholder="Adicione um gênero"
+                            class="flex-1 px-4 py-2 border-2 border-stone-300 rounded-lg focus:outline-none focus:border-teal-700 transition">
+                        <button type="button" id="addEditGenreBtn" onclick="addEditGenreTag()"
+                            class="px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white rounded-lg transition font-semibold">
+                            <i class="fas fa-plus"></i> Adicionar
+                        </button>
+                    </div>
+                    <div id="editGenreTagsContainer" class="flex flex-wrap gap-2">
+                        <!-- Tags de gênero aparecerão aqui -->
+                    </div>
+                </div>
+
+                <div>
+                    <label for="editPages" class="block text-sm font-semibold text-stone-700 mb-2">Número de Páginas *</label>
+                    <input type="number" id="editPages" placeholder="Ex: 350" min="1"
+                        class="w-full px-4 py-2 border-2 border-stone-300 rounded-lg focus:outline-none focus:border-teal-700 transition"
+                        required>
+                </div>
+
+                <div>
+                    <label for="editStatus" class="block text-sm font-semibold text-stone-700 mb-2">Status *</label>
+                    <select id="editStatus" onchange="updateEditRatingRequirement()"
+                        class="w-full px-4 py-2 border-2 border-stone-300 rounded-lg focus:outline-none focus:border-teal-700 transition"
+                        required>
+                        <option value="">Selecione um status</option>
+                        <option value="Quero Ler">Quero Ler 📖</option>
+                        <option value="Lendo">Lendo 📕</option>
+                        <option value="Lido">Lido ✅</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="editRating" class="block text-sm font-semibold text-stone-700 mb-2">
+                        Nota (1 a 5 ⭐) <span id="editRatingRequired"></span>
+                    </label>
+                    <input type="number" id="editRating" min="1" max="5" placeholder="Apenas para lidos"
+                        class="w-full px-4 py-2 border-2 border-stone-300 rounded-lg focus:outline-none focus:border-teal-700 transition">
+                    <small class="text-stone-500">ℹ️ Obrigatória apenas se status for "Lido"</small>
+                </div>
+
+                <div class="md:col-span-2 flex gap-3">
+                    <button type="submit"
+                        class="flex-1 bg-amber-800 hover:bg-amber-900 text-white font-bold py-3 px-6 rounded-lg transition transform hover:scale-105">
+                        <i class="fas fa-save mr-2"></i>Salvar Alterações
+                    </button>
+                    <button type="button" onclick="closeEditModal()"
+                        class="flex-1 bg-stone-400 hover:bg-stone-500 text-white font-bold py-3 px-6 rounded-lg transition">
+                        <i class="fas fa-times mr-2"></i>Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-amber-800 mt-20 py-8">
+        <div class="container mx-auto px-4 text-center text-stone-600 text-sm">
+            <p>The Reading Nook © 2026 - Desenvolvido com <i class="fas fa-heart text-red-500"></i> para amantes de
+                livros</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="./js/storage.js"></script>
+    <script src="./js/main.js"></script>
+
+</body>
+</html>

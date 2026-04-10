@@ -1,0 +1,220 @@
+/* Styles.css - Estilos Customizados para The Reading Nook */
+
+/* Animações Customizadas */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+/* Aplicar animações */
+.animate-fadeIn {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.animate-slideIn {
+    animation: slideIn 0.3s ease-in-out;
+}
+
+.animate-slideOut {
+    animation: slideOut 0.3s ease-in-out;
+}
+
+/* Ajustes de Tipografia */
+body {
+    scroll-behavior: smooth;
+}
+
+/* Estilos para o Container do Scroll */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #b78d4a;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a67c36;
+}
+
+/* Ajuste de Focus para Acessibilidade */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 2px solid #b91c1c;
+    outline-offset: 2px;
+}
+
+/* Classe para truncar linhas */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Efeito hover nos cards */
+.group:hover .group-hover\:scale-105 {
+    transform: scale(1.05);
+}
+
+/* Estilos para o estado vazio */
+#emptyState {
+    display: none;
+}
+
+/* Transição suave para mudanças de layout */
+#booksContainer {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Media Query para melhor responsividade em celulares */
+@media (max-width: 640px) {
+    .text-4xl {
+        font-size: 1.875rem;
+    }
+    
+    .gap-6 {
+        gap: 1rem;
+    }
+    
+    body {
+        padding: 0;
+    }
+}
+
+/* Ajuste de espaçamento em formulários */
+form > div {
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Botões com melhor feedback */
+button:active {
+    transform: scale(0.98);
+}
+
+/* Cards com gradiente sutil */
+.bg-white.rounded-lg {
+    background: linear-gradient(135deg, #ffffff 0%, #fafaf8 100%);
+}
+
+/* Cor de placeholder customizada */
+input::placeholder,
+select::placeholder {
+    color: #a8a29e;
+}
+
+/* Estilos para Modal */
+#editModal.hidden {
+    display: none;
+}
+
+#editModal:not(.hidden) {
+    display: flex;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Animação de entrada do modal */
+#editModal:not(.hidden) > div {
+    animation: slideIn 0.3s ease-in-out;
+}
+
+/* Scrollbar no modal */
+#editModal > div {
+    scrollbar-width: thin;
+    scrollbar-color: #b78d4a #f1f5f9;
+}
+
+/* Validação de campos */
+input:invalid,
+select:invalid {
+    border-color: #dc2626;
+}
+
+input:valid,
+select:valid {
+    border-color: #059669;
+}
+
+/* Animação do loader (se necessário) */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Classe de sombra customizada */
+.shadow-xl-custom {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Texto selecionável com cor especial */
+::selection {
+    background-color: #b78d4a;
+    color: white;
+}
+
+/* Transform smooth para transições */
+* {
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Remove transição de background para inputs durante o preenchimento */
+input:autofill,
+input:autofill:hover,
+input:autofill:focus,
+input:autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+/* Estilos para melhor visualização em dark mode (opcional) */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1c1917;
+        color: #f5f5f4;
+    }
+    
+    .bg-white,
+    .bg-stone-50 {
+        background-color: #292524;
+    }
+    
+    input,
+    select {
+        background-color: #44403c;
+        color: #f5f5f4;
+    }
+}
